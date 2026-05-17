@@ -1,0 +1,19 @@
+We want to create a fast and easy portal to show the houses were interested in based on some criteria.
+
+The criteria are:
+- AC
+- 3 of bedrooms 
+- 1.5 of bathrooms
+- Pets allowed
+- Price
+- Utilities
+- Year
+
+AI Features:
+- Fenced backyard
+- Dishwasher
+
+Preliminary:
+    We will use the zillow website retrieve the house data.
+    I will either use headers to get the page we need or,
+    I will use selenium to first pull up the page we need, then extract the data.

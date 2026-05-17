@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}" />
+</head>
+<body>
+    <div class="main-container">
+        {% if results %}
+            {% for house in results %}
+                <div class="result-card">
+                    <div class="area-stats">
+                        <h3>Area Stats</h3>
+                        <p>Avg Price: ${{ "{:,}".format(house.avg_price) }}</p>
+                        <p>Avg Living Area: {{ house.avg_area }} sq ft</p>
+                        <p>Crime Rate: {{ house.crime_rate }}</p>
+                        <p>Schools: {{ house.schools }}</p>
+                    </div>
+                    <div class="image-center">
+                        <img src="{{ house.image }}" alt="House Image" />
+                        <div class="home-details">
+                            <h2>{{ house.address }}</h2>
+                            <p><strong>Price:</strong> ${{ "{:,}".format(house.price) }}</p>
+                            <p><strong>Bedrooms:</strong> {{ house.bedrooms }}</p>
+                            <p><strong>Bathrooms:</strong> {{ house.bathrooms }}</p>
+                            <p><strong>Type:</strong> {{ house.type }}</p>
+                            <p><strong>Listing:</strong> {{ house.listing_type }}</p>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="like">👍 Like</button>
+                        <button class="dislike">👎 Discard</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No houses match your criteria.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
