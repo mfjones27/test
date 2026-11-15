@@ -1,6 +1,10 @@
+import os
 import time
+
 import pandas as pd
 import requests as rq
+
+TIMEOUT = 20  # seconds; never hang forever on a slow API
 
 def save_data(all_props):
     save_path = 'data/zillow_data.csv'
@@ -10,7 +14,7 @@ def save_data(all_props):
 def get_props_by_loc(URL, headers, querystring):
     props = []
     try:
-        response = rq.get(URL, headers=headers, params=querystring)
+        response = rq.get(URL, headers=headers, params=querystring, timeout=TIMEOUT)
         data = response.json()
 
         props.extend(data.get('props', []))
@@ -21,7 +25,7 @@ def get_props_by_loc(URL, headers, querystring):
             querystring['page'] = page
             print(f'Fetching page {page}...')
 
-            response = rq.get(URL, headers=headers, params=querystring)
+            response = rq.get(URL, headers=headers, params=querystring, timeout=TIMEOUT)
             page_data = response.json()
             page_props = page_data.get('props', [])
             props.extend(page_props)
@@ -40,9 +44,12 @@ def get_params():
     return  {"location":f"{location}","status_type":f"{status_type}","home_type":f"{home_type}", "page": 1}
 
 def main():
+    api_key = os.environ.get("RAPIDAPI_KEY")
+    if not api_key:
+        raise SystemExit("Set the RAPIDAPI_KEY environment variable first.")
     URL = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
     headers = {
-        "x-rapidapi-key": "4b11f77b67mshfeb09550ed27457p1e5036jsn66619bc501d3",
+        "x-rapidapi-key": api_key,
 		"x-rapidapi-host": "zillow-com1.p.rapidapi.com"
     }
     
